@@ -1,0 +1,25 @@
+<div class="navbar">
+  <div class="navbar-left">
+    <span class="toggle-icon" onclick="toggleSidebar()">☰</span>
+    <span class="brand">FashionApp</span>
+  </div>
+
+  <div class="navbar-right">
+    <div class="cart-icon">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span class="cart-count">5</span>
+    </div>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search products..." />
+    </div>
+
+    <% if (user) { %>
+      <img src="/uploads/<%= user.image %>" alt="User" class="avatar" />
+      <span class="user-name">Hello, <%= user.username %></span>
+    <% } else { %>
+      <img src="/image/default-avatar.png" alt="User" class="avatar" />
+      <a href="/login" class="login-btn">Login</a>
+    <% } %>
+  </div>
+</div>

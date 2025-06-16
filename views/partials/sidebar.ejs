@@ -1,0 +1,41 @@
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="brand">FashionApp</span>
+    <span class="toggle-icon" onclick="toggleSidebar()">☰</span>
+  </div>
+  <ul>
+    <li>
+      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+    </li>
+    <li>
+      <a href="/wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+    </li>
+    <li>
+      <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+    </li>
+
+    <% if (user && user.isAdmin) { %>
+    <li>
+      <a href="/admin/create-product"
+        ><i class="fas fa-plus-circle"></i> Create Product</a
+      >
+    </li>
+    <li>
+      <a href="/admin/get-products"
+        ><i class="fas fa-boxes"></i> All Products</a
+      >
+    </li>
+    <li>
+      <a href="/admin/createCategory"
+        ><i class="fas fa-plus-circle"></i> Create Category</a
+      >
+    </li>
+    <% } %>
+
+    <li>
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </li>
+  </ul>
+</div>
+
+<script src="/js/sidebar.js"></script>

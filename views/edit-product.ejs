@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("partials/head") %>
+
+  <body>
+    <%- include("partials/navbar") %>
+    <%- include("partials/sidebar") %>
+
+    <div class="admin-container">
+      <h2>Edit Product: <%= product.name %></h2>
+      <div id="error-message" style="color: red; display: none"></div>
+
+    <form
+      class="Create-product"
+      action="/products/<%= product._id %>"
+      method="POST"
+      enctype="multipart/form-data"
+    >    
+  <label for="name">Product Name:</label>
+  <input type="text" name="name" value="<%= product.name %>" required />
+
+  <label for="price">Price:</label>
+  <input type="number" step="0.01" name="price" value="<%= product.price %>" required />
+
+  <label for="imageUrl">Product Image:</label>
+  <input type="file" name="imageUrl" accept="image/*" />
+
+  <label for="category">Category:</label>
+  <select name="category" required>
+    <% categories.forEach(cat => { %>
+      <option value="<%= cat.name %>" <%= product.category === cat.name ? "selected" : "" %>>
+        <%= cat.name %>
+      </option>
+    <% }) %>
+  </select>
+
+     <button type="submit">Update Product</button> 
+      </form>
+
+    </div>
+
+    <script>
+      const form = document.querySelector("#editProduct-form");
+      const errDiv = document.querySelector("#error-message");
+      const submitBtn = document.querySelector("#submitBtn");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const productId = "<%= product._id %>";
+
+      try {
+         const response = await fetch(`/products/${productId}`, {
+         method: "POST",
+         body: formData,
+        });
+
+         if (!response.ok) {
+          const data = await response.json();
+          errDiv.textContent = data.message || "Failed to update product";
+          errDiv.style.display = "block";
+        } else {
+          window.location.href = "/admin/get-products";
+        }
+      } catch (err) {
+        errDiv.textContent = "Something went wrong!";
+        errDiv.style.display = "block";
+       }
+     });
+
+    </script>
+  </body>
+</html>

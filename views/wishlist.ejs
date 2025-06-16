@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body>
+    <%- include('partials/navbar') %> <%- include('partials/sidebar') %>
+
+    <section class="wishlist-section">
+      <h2>Your Wishlist</h2>
+
+      <% if (wishlistItems.length > 0) { %>
+      <div class="wishlist-grid">
+        <% wishlistItems.forEach(product => { %>
+        <div class="wishlist-card">
+          <img src="<%= product.image %>" alt="<%= product.name %>" />
+          <h3><%= product.name %></h3>
+          <p>$<%= product.price.toFixed(2) %></p>
+          <button
+            class="remove-wishlist-btn"
+            data-product-id="<%= product._id %>"
+          >
+            Remove
+          </button>
+        </div>
+        <% }) %>
+      </div>
+      <% } else { %>
+      <p>Your wishlist is empty.</p>
+      <% } %>
+    </section>
+
+    <script src="/js/removeWishlist.js"></script>
+  </body>
+</html>

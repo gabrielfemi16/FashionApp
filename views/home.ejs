@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %> <%- include('partials/navbar') %>
+  </head>
+  <body>
+    <%- include('partials/header') %> <%- include('partials/sidebar') %>
+    <br />
+    <br />
+
+    <br />
+    <br />
+    <main>
+      <section class="banner">
+        <h1>Welcome to the Fashion App</h1>
+        <p>Discover your style today</p>
+      </section>
+
+      <section class="category-section">
+        <h2>Shop by Category</h2>
+        <% if (categories.length > 0) { %>
+        <div class="product-grid">
+          <% categories.forEach(category => { %>
+          <div class="product-card">
+            <img src="<%= category.image %>" alt="<%= category.name %>" />
+            <h3><%= category.name %></h3>
+            <a href="/categories/<%= category.name %>">
+              <button>View Products</button>
+            </a>
+          </div>
+          <% }) %>
+        </div>
+        <% } else { %>
+        <p>No categories found.</p>
+        <% } %>
+      </section>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

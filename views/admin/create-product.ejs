@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+  <body>
+    <%- include('../partials/navbar') %> <%- include('../partials/sidebar') %>
+
+    <div class="admin-container">
+      <a href="/admin/get-products" class="link-button">View All Products</a>
+
+      <h2>Create Product</h2>
+      <form
+        class="Create-product"
+        id="createProductForm"
+        action="/admin/create-product"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <input type="text" name="name" placeholder="Product Name" required />
+        <input
+          type="file"
+          name="imageUrl"
+          placeholder="Image URL"
+          accept="image/*"
+          required
+        />
+        <input
+          type="number"
+          name="price"
+          step="0.01"
+          placeholder="Price"
+          required
+        />
+
+        <select name="category" required>
+          <option value=""><--- select category ---></option>
+          <option value="Red dress">Red dress</option>
+          <option value="Blue jacket">Blue jacket</option>
+          <option value="Classic Jeans">Classic Jeans</option>
+          <option value="White Sneakers">White Sneakers</option>
+        </select>
+
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  </body>
+</html>

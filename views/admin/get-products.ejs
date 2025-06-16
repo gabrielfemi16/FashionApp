@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+  <body>
+    <%- include('../partials/navbar') %> <%- include('../partials/sidebar') %>
+
+    <div class="admin-container">
+      <h2>All Products</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productTable">
+          <% products.forEach(product => { %>
+          <tr>
+            <td><%= product.name %></td>
+            <td>
+              <img
+                src="<%= product.image %>"
+                alt="<%= product.name %>"
+                width="80"
+              />
+            </td>
+            <td>$<%= product.price.toFixed(2) %></td>
+            <td>
+              <%= product.category ? product.category.name : "No Category" %>
+            </td>
+            <td>
+              <a href="/edit-products/<%= product._id %>" class="edit-btn">
+                Edit
+              </a>
+              <button class="delete-btn" data-id="<%= product._id %>">
+                Delete
+              </button>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      document.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          if (!confirm("Are you sure you want to delete this product?")) return;
+
+          const productId = btn.getAttribute("data-id");
+
+          try {
+            const response = await fetch(`/products/${productId}`, {
+              method: "DELETE",
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              alert(data.message || "Failed to delete product");
+            } else {
+              btn.closest("tr").remove();
+              alert(data.message);
+            }
+          } catch (err) {
+            alert("Something went wrong!");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

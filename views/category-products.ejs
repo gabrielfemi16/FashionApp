@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body>
+    <%- include('partials/navbar') %> <%- include('partials/sidebar') %>
+
+    <section class="category-products-section">
+      <h2><%= categoryName %> Products</h2>
+
+      <% if (products.length > 0) { %>
+      <div class="category-grid-wrapper">
+        <div class="category-product-grid">
+          <% products.forEach(product => { %>
+          <div class="category-product-card">
+            <img src="<%= product.image %>" alt="<%= product.name %>" />
+            <h3><%= product.name %></h3>
+            <p class="category-price">$<%= product.price.toFixed(2) %></p>
+            <div class="category-action-icons">
+              <button class="category-icon-btn plus-btn">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+
+              <button
+                class="category-icon-btn category-wishlist-btn"
+                data-product-id="<%= product._id %>"
+              >
+                <i class="fa-regular fa-heart"></i>
+              </button>
+
+              <button class="category-icon-btn minus-btn">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+            </div>
+
+            <button class="cart">add to cart</button>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      <% } else { %>
+      <p>No products found in this category.</p>
+      <% } %>
+    </section>
+
+    <script src="/js/wishlist.js"></script>
+  </body>
+</html>
