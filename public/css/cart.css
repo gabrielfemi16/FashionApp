@@ -117,3 +117,82 @@
   text-align: center;
   max-width: 400px;
 }
+
+@media (max-width: 480px) {
+  .cart-container {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .cart-container h2 {
+    font-size: 1.4rem;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-item img {
+    width: 100%;
+    height: auto;
+  }
+
+  .cart-item-info h4 {
+    font-size: 1rem;
+  }
+
+  .cart-item-info p {
+    font-size: 0.9rem;
+  }
+
+  .cart-qty-controls {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .cart-total {
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  #checkout-btn {
+    width: 100%;
+    padding: 0.7rem;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  /* General tweaks for smaller buttons/inputs in forms */
+  input,
+  button {
+    font-size: 14px;
+  }
+
+  .Create-product,
+  .admin-container,
+  .profile-section {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .create-category-form {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .auth-form {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .product-card,
+  .wishlist-card,
+  .category-product-card {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
