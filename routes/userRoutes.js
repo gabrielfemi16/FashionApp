@@ -18,6 +18,10 @@ const {
   createCategoryPost,
   getProductsByCategory,
   upload,
+  cartDetails,
+  checkout,
+  getAllOrders,
+  searchProduct,
 } = require("../controllers/userController");
 
 const { isAdmin, isAuthenticated } = require("../middlewares/auth");
@@ -65,5 +69,13 @@ router.post(
 );
 
 router.get("/categories/:categoryName", isAuthenticated, getProductsByCategory);
+
+router.get("/viewCart", cartDetails); // get cart page
+
+router.post("/checkout", isAuthenticated, checkout); // save checkout record
+
+router.get("/admin/orders", isAdmin, getAllOrders); // see orders. Please add this route to only admins can see in the frontend
+
+router.post("/search", searchProduct)
 
 module.exports = router;

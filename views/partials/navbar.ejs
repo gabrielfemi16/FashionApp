@@ -5,21 +5,23 @@
   </div>
 
   <div class="navbar-right">
-    <div class="cart-icon">
-      <i class="fa-solid fa-cart-shopping"></i>
-      <span class="cart-count">5</span>
-    </div>
+    <a href="/viewCart">
+      <div class="cart-icon">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-count">0</span>
+      </div>
+    </a>
 
-    <div class="search-box">
-      <input type="text" placeholder="Search products..." />
-    </div>
+    <form method="post" action="/search" class="search-box">
+      <input type="text" placeholder="Search products..." name="searchProduct" />
+    </form>
 
     <% if (user) { %>
-      <img src="/uploads/<%= user.image %>" alt="User" class="avatar" />
-      <span class="user-name">Hello, <%= user.username %></span>
+    <img src="/uploads/<%= user.image %>" alt="User" class="avatar" />
+    <span class="user-name">Hello, <%= user.username %></span>
     <% } else { %>
-      <img src="/image/default-avatar.png" alt="User" class="avatar" />
-      <a href="/login" class="login-btn">Login</a>
+    <img src="/image/default-avatar.png" alt="User" class="avatar" />
+    <a href="/login" class="login-btn">Login</a>
     <% } %>
   </div>
 </div>

@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Category = require("../models/categories");
 const multer = require("multer");
 const path = require("path");
+const Order = require("../models/order");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -276,6 +277,66 @@ const getProductsByCategory = async (req, res) => {
   }
 };
 
+const cartDetails = async (req, res) => {
+  try {
+    res.render("viewCart");
+  } catch (err) {
+    console.error("Error fetching cart-details", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+const checkout = async (req, res) => {
+  try {
+    const { items, code } = req.body;
+    if (!items || !code) {
+      return res.status(400).json({ succes: false, message: "Missing data" });
+    }
+
+    const order = new Order({
+      user: req.user._id,
+      items,
+      code,
+    });
+
+    await order.save();
+    console.log(order);
+    res.json({ success: true });
+  } catch (err) {
+    console.error("checkout error:", err);
+    res.status(500).json({ success: false });
+  }
+};
+
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.render("admin/orders", { orders, title: "All Orders" });
+  } catch (err) {
+    console.error("Orders error", err);
+    res.status(500).render("500", { title: "Server error" });
+  }
+};
+
+const searchProduct = async (req, res) => {
+  try {
+    const searchProduct = req.body.searchProduct;
+
+    const searchResults = await Product.find({
+      $text: { $search: searchProduct, $diacriticSensitive: true }
+    });
+
+    res.render("search-results", {
+      title: `Search Results for "${searchProduct}"`,
+      products: searchResults,
+      searchTerm: searchProduct
+    });
+  } catch (err) {
+    console.error("Search error:", err);
+    res.status(500).render("500", { title: "Server Error" });
+  }
+};
+
 module.exports = {
   home,
   wishlist,
@@ -293,4 +354,8 @@ module.exports = {
   createCategoryPost,
   getProductsByCategory,
   upload,
+  cartDetails,
+  checkout,
+  getAllOrders,
+  searchProduct
 };

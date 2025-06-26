@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+
+  <body>
+    <%- include('../partials/navbar') %> <%- include('../partials/sidebar') %>
+
+    <h2 style="text-align: center" class="h2">All Payment Records - Admin</h2>
+    <div class="orders-container">
+      <% orders.forEach(order => { %>
+      <div class="order-card">
+        <p><strong>Code:</strong> <%= order.code %></p>
+        <p><strong>Date:</strong> <%= order.createdAt.toDateString() %></p><br>
+        <ul>
+          <% order.items.forEach(item => { %>
+          <li>
+            <strong>Product Name:</strong><%= item.name %> <br> 
+            <strong>Product Price:</strong>$<%= item.price %>
+            x <%= item.qty %>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+      <% }) %>
+    </div>
+    <script src="/js/cart-local.js"></script>
+  </body>
+</html>

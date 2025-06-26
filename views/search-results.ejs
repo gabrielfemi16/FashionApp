@@ -8,16 +8,17 @@
     <%- include('partials/navbar') %> <%- include('partials/sidebar') %>
 
     <section class="category-products-section">
-      <h2><%= categoryName %> Products</h2>
+      <h2>Search Results for "<%= searchTerm %>"</h2>
 
-      <% if (products.length> 0) { %>
+      <% if (products.length > 0) { %>
       <div class="category-grid-wrapper">
         <div class="category-product-grid">
-          <% products.forEach(product=> { %>
+          <% products.forEach(product => { %>
           <div class="category-product-card">
             <img src="<%= product.image %>" alt="<%= product.name %>" />
             <h3><%= product.name %></h3>
             <p class="category-price">$<%= product.price.toFixed(2) %></p>
+
             <div class="category-action-icons">
               <button class="category-icon-btn plus-btn">
                 <i class="fa-solid fa-plus"></i>
@@ -35,15 +36,23 @@
               </button>
             </div>
 
-            <button class="cart">add to cart</button>
+            <button
+              class="cart add-to-cart"
+              data-product-id="<%= product._id %>"
+              data-product-name="<%= product.name %>"
+              data-product-price="<%= product.price %>"
+            >
+              Add to Cart
+            </button>
           </div>
           <% }) %>
         </div>
       </div>
       <% } else { %>
-      <p>No products found in this category.</p>
+      <p>No products found for "<%= searchTerm %>".</p>
       <% } %>
     </section>
+
     <script src="/js/wishlist.js"></script>
     <script src="/js/cart-local.js"></script>
   </body>

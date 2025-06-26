@@ -785,3 +785,61 @@ button:last-of-type {
   border-radius: 50%;
 }
 
+
+.orders-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.order-card {
+  background-color: rgb(10, 10, 10);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgb(255, 255, 255);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgb(255, 255, 255);
+}
+
+
+.order-card p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: white;
+}
+
+
+.order-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.order-card li {
+  background-color: #f9f9f9;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.order-card strong {
+  color: rgb(95, 92, 92);
+  font-weight: 600;
+}
+
+
+.h2 {
+  font-size: 2rem;
+  margin: 2rem auto;
+  color: #222;
+  font-weight: 700;
+  margin-top: 4rem;
+}
