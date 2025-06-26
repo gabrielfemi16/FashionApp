@@ -1,4 +1,4 @@
-const Product = require("../models/Product");
+const Product = require("../models/product");
 const User = require("../models/user");
 const Category = require("../models/categories");
 const multer = require("multer");
