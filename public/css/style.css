@@ -785,7 +785,6 @@ button:last-of-type {
   border-radius: 50%;
 }
 
-
 .orders-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -807,13 +806,11 @@ button:last-of-type {
   box-shadow: 0 4px 12px rgb(255, 255, 255);
 }
 
-
 .order-card p {
   margin: 0.5rem 0;
   font-size: 1rem;
   color: white;
 }
-
 
 .order-card ul {
   list-style: none;
@@ -835,11 +832,115 @@ button:last-of-type {
   font-weight: 600;
 }
 
-
 .h2 {
   font-size: 2rem;
   margin: 2rem auto;
   color: #222;
   font-weight: 700;
   margin-top: 4rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    height: auto;
+  }
+
+  .navbar-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .navbar-right {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .user-name {
+    font-size: 14px;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .login-btn {
+    font-size: 14px;
+  }
+
+  .sidebar {
+    width: 200px;
+    position: fixed;
+    z-index: 1500;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.visible {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card,
+  .wishlist-card,
+  .category-product-card {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .category-product-card img,
+  .wishlist-card img {
+    height: 180px;
+  }
+
+  .category-product-card h3,
+  .wishlist-card h3 {
+    font-size: 1rem;
+  }
+
+  .category-action-icons {
+    justify-content: space-around;
+  }
+
+  .order-card {
+    padding: 1rem;
+  }
+
+  .order-card li {
+    font-size: 0.85rem;
+  }
+
+  .auth-form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .Create-product,
+  .admin-container {
+    width: 90%;
+    margin: 60px auto;
+  }
+
+  .create-category-form {
+    width: 90%;
+    padding: 1.5rem;
+  }
 }

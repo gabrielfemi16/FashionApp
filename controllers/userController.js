@@ -323,13 +323,13 @@ const searchProduct = async (req, res) => {
     const searchProduct = req.body.searchProduct;
 
     const searchResults = await Product.find({
-      $text: { $search: searchProduct, $diacriticSensitive: true }
+      $text: { $search: searchProduct, $diacriticSensitive: true },
     });
 
     res.render("search-results", {
       title: `Search Results for "${searchProduct}"`,
       products: searchResults,
-      searchTerm: searchProduct
+      searchTerm: searchProduct,
     });
   } catch (err) {
     console.error("Search error:", err);
@@ -357,5 +357,5 @@ module.exports = {
   cartDetails,
   checkout,
   getAllOrders,
-  searchProduct
+  searchProduct,
 };
