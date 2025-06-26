@@ -13,6 +13,7 @@ const orderSchema = new mongoose.Schema(
       },
     ],
     code: String,
+    status: { type: String, default: "Not Delivered" },
   },
   { timestamps: true }
 );

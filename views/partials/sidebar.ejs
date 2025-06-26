@@ -13,6 +13,9 @@
     <li>
       <a href="/profile"><i class="fas fa-user"></i> Profile</a>
     </li>
+    <li>
+      <a href="/my-orders"><i class="fa-regular fa-bag-shopping"></i>Orders</a>
+    </li>
 
     <% if (user && user.isAdmin) { %>
     <li>
@@ -30,15 +33,17 @@
         ><i class="fas fa-plus-circle"></i> Create Category</a
       >
     </li>
-
     <li>
-      <a href="/admin/orders"><i class="fas fa-sign-out-alt"></i> Orders</a>
+      <a href="/admin/orders"
+        ><i class="fa-regular fa-bag-shopping"></i>Admin-Orders</a
+      >
+      <% } %> <% if (user) { %>
     </li>
-    <% } %>
 
     <li>
       <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </li>
+    <% } %>
   </ul>
 </div>
 

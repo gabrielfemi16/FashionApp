@@ -948,4 +948,51 @@ button:last-of-type {
     width: 90%;
     padding: 1.5rem;
   }
+
+  .product-card,
+  .wishlist-card,
+  .category-product-card {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .category-product-card img,
+  .wishlist-card img {
+    height: auto;
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .category-product-card h3,
+  .wishlist-card h3 {
+    font-size: 1rem;
+  }
+
+  .category-action-icons {
+    justify-content: space-around;
+  }
+
+  .order-card {
+    padding: 1rem;
+  }
+
+  .order-card li {
+    font-size: 0.85rem;
+  }
+
+  .auth-form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .Create-product,
+  .admin-container {
+    width: 90%;
+    margin: 60px auto;
+  }
+
+  .create-category-form {
+    width: 90%;
+    padding: 1.5rem;
+  }
 }

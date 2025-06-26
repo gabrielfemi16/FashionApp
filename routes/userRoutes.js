@@ -22,6 +22,8 @@ const {
   checkout,
   getAllOrders,
   searchProduct,
+  getMyOrders,
+  updateOrderStatus,
 } = require("../controllers/userController");
 
 const { isAdmin, isAuthenticated } = require("../middlewares/auth");
@@ -76,6 +78,10 @@ router.post("/checkout", isAuthenticated, checkout); // save checkout record
 
 router.get("/admin/orders", isAdmin, getAllOrders); // see orders. Please add this route to only admins can see in the frontend
 
-router.post("/search", searchProduct)
+router.post("/search", searchProduct);
+
+router.get("/my-orders", isAuthenticated, getMyOrders);
+
+router.post('/admin/orders/:id/deliver', isAdmin, updateOrderStatus);
 
 module.exports = router;

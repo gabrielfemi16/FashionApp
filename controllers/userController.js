@@ -337,6 +337,28 @@ const searchProduct = async (req, res) => {
   }
 };
 
+const getMyOrders = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const orders = await Order.find({ user: userId }).sort({ createdAt: -1 });
+    res.render("admin/orders", { orders });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to retrieve your orders");
+  }
+};
+
+const updateOrderStatus = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    await Order.findByIdAndUpdate(orderId, { status: 'Delivered' });
+    res.redirect("/admin/orders");
+  } catch (err) {
+    console.error('Error updating order status:', err);
+    res.status(500).send('Error updating order status');
+  }
+};
+
 module.exports = {
   home,
   wishlist,
@@ -358,4 +380,6 @@ module.exports = {
   checkout,
   getAllOrders,
   searchProduct,
+  getMyOrders,
+  updateOrderStatus,
 };
