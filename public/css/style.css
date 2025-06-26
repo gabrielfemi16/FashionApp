@@ -251,8 +251,13 @@ p.error {
   z-index: 1100;
 }
 
-.sidebar.hidden {
+.sidebar {
   transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.sidebar.visible {
+  transform: translateX(0);
 }
 
 .sidebar-header {
