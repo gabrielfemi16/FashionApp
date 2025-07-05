@@ -2,6 +2,100 @@ const validator = require("validator");
 const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const JWT = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "mail.codebadgertech.com",
+  port: 465,
+  auth: {
+    user: "training@codebadgertech.com",
+    pass: "training@30",
+  },
+});
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.render("forgot-password", { message: "User not found" });
+    }
+
+    const expires = Date.now() + 5 * 60 * 1000;
+    const tokenData = `${user._id}.${expires}`;
+    const token = CryptoJS.AES.encrypt(tokenData, "your_secret_key").toString();
+
+    const resetLink = `${req.protocol}://${req.get(
+      "host"
+    )}/reset-password?token=${encodeURIComponent(token)}`;
+
+    const mailOptions = {
+      from: "training@codebadgertech.com",
+      to: user.email,
+      subject: "Password Reset",
+      html: `
+        <div style="max-width: 500px; margin: auto; padding: 20px; border-radius: 8px; background: #f9f9f9; border: 1px solid #e0e0e0; font-family: Arial, sans-serif;">
+          <h2 style="color: #1a73e8; text-align: center;">Password Reset Request</h2>
+          <p style="font-size: 16px; color: #333; line-height: 1.5;">
+            We received a request to reset your password. Click the button below to reset it. This link is valid for 5 minutes.
+          </p>
+          <div style="text-align: center; margin: 20px 0;">
+            <a href="${resetLink}" style="padding: 12px 20px; background-color: #1a73e8; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold;">
+              Reset Password
+            </a>
+          </div>
+          <p style="font-size: 14px; color: #555;">
+            If you did not request this, please ignore this email.
+          </p>
+          <p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px;">
+            &copy; ${new Date().getFullYear()} Your Fashion App. All rights reserved.
+          </p>
+        </div>
+      `,
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) console.error(err);
+      else console.log(info.response);
+    });
+
+    res.render("forgot-pass", { message: "Reset link sent to your email" });
+  } catch (err) {
+    res.status(500).send("Server error");
+  }
+};
+
+const resetPasswordForm = (req, res) => {
+  const { token } = req.query;
+  res.render("reset-pass", { token });
+};
+
+const resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+  try {
+    const decrypted = CryptoJS.AES.decrypt(token, "your_secret_key").toString(
+      CryptoJS.enc.Utf8
+    );
+    const [userId, expires] = decrypted.split(".");
+    if (Date.now() > Number(expires)) {
+      return res.send("Reset link has expired");
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.send("User not found");
+    }
+
+    // Encrypt the new password before saving
+    user.password = encryptPassword(newPassword);
+    await user.save();
+
+    res.redirect("/login");
+  } catch (err) {
+    console.error(err);
+    res.send("Invalid or expired reset link");
+  }
+};
 
 const encryptPassword = (psw) => {
   return CryptoJS.AES.encrypt(psw, process.env.PASS_SEC).toString();
@@ -94,6 +188,40 @@ const registerPost = async (req, res) => {
       maxAge: 86400 * 1000,
     });
 
+    // ✅ Send Welcome Email after successful registration
+    const mailOptions = {
+      from: "training@codebadgertech.com",
+      to: savedUser.email,
+      subject: "Welcome to Fashion App!",
+      html: `
+        <div style="max-width: 500px; margin: auto; padding: 20px; border-radius: 8px; background: #f9f9f9; border: 1px solid #e0e0e0; font-family: Arial, sans-serif;">
+          <h2 style="color: #1a73e8; text-align: center;">Welcome to Your Fashion App!</h2>
+          <p style="font-size: 16px; color: #333; line-height: 1.5;">
+            Hello <strong>${savedUser.username}</strong>,<br><br>
+            Thank you for signing up! We're excited to have you join our fashion community. Explore the latest products, create your wishlist, and enjoy shopping.
+          </p>
+          <div style="text-align: center; margin: 20px 0;">
+            <a href="${req.protocol}://${req.get(
+        "host"
+      )}/" style="padding: 12px 20px; background-color: #1a73e8; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold;">
+              Visit Our Store
+            </a>
+          </div>
+          <p style="font-size: 14px; color: #555;">
+            If you have any questions, feel free to reply to this email. Happy shopping!
+          </p>
+          <p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px;">
+            &copy; ${new Date().getFullYear()} Your Fashion App. All rights reserved.
+          </p>
+        </div>
+      `,
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) console.error("Error sending welcome email:", err);
+      else console.log("Welcome email sent:", info.response);
+    });
+
     return res.status(200).json({ message: "Signup successful!" });
   } catch (err) {
     console.error("Register error:", err);
@@ -111,5 +239,8 @@ module.exports = {
   register,
   loginPost,
   registerPost,
-  logout
+  logout,
+  forgotPassword,
+  resetPasswordForm,
+  resetPassword,
 };

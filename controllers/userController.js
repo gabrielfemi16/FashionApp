@@ -4,6 +4,7 @@ const Category = require("../models/categories");
 const multer = require("multer");
 const path = require("path");
 const Order = require("../models/order");
+const nodemailer = require("nodemailer");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -286,12 +287,24 @@ const cartDetails = async (req, res) => {
   }
 };
 
+const transporter = nodemailer.createTransport({
+  host: "mail.codebadgertech.com",
+  port: 465,
+  auth: {
+    user: "training@codebadgertech.com",
+    pass: "training@30",
+  },
+});
+
 const checkout = async (req, res) => {
   try {
     const { items, code } = req.body;
+
     if (!items || !code) {
-      return res.status(400).json({ succes: false, message: "Missing data" });
+      return res.status(400).json({ success: false, message: "Missing data" });
     }
+
+    console.log("Received items:", items); // Debug log
 
     const order = new Order({
       user: req.user._id,
@@ -300,7 +313,49 @@ const checkout = async (req, res) => {
     });
 
     await order.save();
-    console.log(order);
+
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+      const itemsHtml = items
+        .map(
+          (item) => `<li>${item.name} : ${item.qty || 1} × $${item.price}</li>`
+        )
+        .join("");
+
+      const totalAmount = items.reduce(
+        (sum, item) => sum + (item.qty || 1) * item.price,
+        0
+      );
+
+      const mailOptions = {
+        from: "training@codebadgertech.com",
+        to: user.email,
+        subject: "Your Order Confirmation",
+        html: `
+          <div style="max-width: 500px; margin: auto; padding: 20px; border-radius: 8px; background: #f9f9f9; border: 1px solid #e0e0e0; font-family: Arial, sans-serif;">
+            <h2 style="color: #1a73e8; text-align: center;">Thank you for your order, ${
+              user.username
+            }!</h2>
+            <p style="font-size: 16px; color: #333; line-height: 1.5;">Here are your order details:</p>
+            <ul style="font-size: 16px; color: #333; padding-left: 20px;">
+              ${itemsHtml}
+            </ul>
+            <p style="font-size: 16px; font-weight: bold; color: #333;">Total: $${totalAmount}</p>
+            <p style="font-size: 14px; color: #555;">We appreciate your purchase! You will receive updates as your order ships.</p>
+            <p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px;">
+              &copy; ${new Date().getFullYear()} Your Fashion App. All rights reserved.
+            </p>
+          </div>
+        `,
+      };
+
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) console.error(err);
+        else console.log("Order email sent:", info.response);
+      });
+    }
+
     res.json({ success: true });
   } catch (err) {
     console.error("checkout error:", err);
@@ -351,11 +406,11 @@ const getMyOrders = async (req, res) => {
 const updateOrderStatus = async (req, res) => {
   try {
     const orderId = req.params.id;
-    await Order.findByIdAndUpdate(orderId, { status: 'Delivered' });
+    await Order.findByIdAndUpdate(orderId, { status: "Delivered" });
     res.redirect("/admin/orders");
   } catch (err) {
-    console.error('Error updating order status:', err);
-    res.status(500).send('Error updating order status');
+    console.error("Error updating order status:", err);
+    res.status(500).send("Error updating order status");
   }
 };
 

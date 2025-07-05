@@ -1,60 +1,66 @@
 <!DOCTYPE html>
 <html>
+  <%- include("../partials/head") %>
 
-<%- include("../partials/head") %>
-
-<body>
+  <body>
     <form class="auth-form" id="login-form" method="POST">
-        <h1>Login</h1>
-        <input name="email" placeholder="Email" required /><br />
-        <input type="password" name="password" placeholder="Password" required /><br />
-        <button id="submitBtn" type="submit">Login</button>
-        <div id="error-message" style="color: red; display: none;"></div>
-        <p>Don't have an account? <a href="/register">Register</a></p>
+      <h1>Login</h1>
+      <input name="email" placeholder="Email" required /><br />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+      /><br />
+      <button id="submitBtn" type="submit">Login</button>
+      <div id="error-message" style="color: red; display: none"></div>
+      <p>Don't have an account? <a href="/register">Register</a></p>
+      <p>
+        <a href="/forgot-password">Forgot Password?</a>
+      </p>
     </form>
 
     <script>
-        const form = document.querySelector("#login-form");
-        const errDiv = document.querySelector("#error-message");
-        const submitBtn = document.querySelector("#submitBtn");
+      const form = document.querySelector("#login-form");
+      const errDiv = document.querySelector("#error-message");
+      const submitBtn = document.querySelector("#submitBtn");
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();  
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-            submitBtn.textContent = "Please wait while we log you in ....";
-            errDiv.textContent = ""; 
-            errDiv.style.display = "none"; 
-            const formData = new FormData(form); 
+        submitBtn.textContent = "Please wait while we log you in ....";
+        errDiv.textContent = "";
+        errDiv.style.display = "none";
+        const formData = new FormData(form);
 
-            const userData = {
-                email: formData.get("email"),
-                password: formData.get("password"),
-            };
+        const userData = {
+          email: formData.get("email"),
+          password: formData.get("password"),
+        };
 
-            try {
-                const response = await fetch("/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" }, 
-                    body: JSON.stringify(userData), 
-                });
+        try {
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+          });
 
-                const data = await response.json(); 
+          const data = await response.json();
 
-                if (!response.ok) {
-                    errDiv.textContent = data.message; 
-                    errDiv.style.display = "block"; 
-                    submitBtn.textContent = "Login";
-                } else {
-                    window.location.href = "/"; 
-                }
-            } catch (err) {
-                errDiv.textContent = "Something went wrong!"; 
-                errDiv.style.display = "block";
-            } finally {
-                submitBtn.textContent = "Login"; 
-            }
-        });
+          if (!response.ok) {
+            errDiv.textContent = data.message;
+            errDiv.style.display = "block";
+            submitBtn.textContent = "Login";
+          } else {
+            window.location.href = "/";
+          }
+        } catch (err) {
+          errDiv.textContent = "Something went wrong!";
+          errDiv.style.display = "block";
+        } finally {
+          submitBtn.textContent = "Login";
+        }
+      });
     </script>
-</body>
-
+  </body>
 </html>
