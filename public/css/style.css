@@ -956,7 +956,7 @@ button:last-of-type {
   width: 100%;
   height: 300px;
   border: none;
-  border-radius: 8px;
+  border-radius: 7.5px;
 }
 
 @media (max-width: 768px) {
@@ -999,7 +999,7 @@ button:last-of-type {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 20px;
     margin-top: 10px;
   }
 
