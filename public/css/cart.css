@@ -164,6 +164,7 @@
 
   .modal-content {
     width: 95%;
+    margin-top: 20px;
     padding: 1rem;
   }
 
