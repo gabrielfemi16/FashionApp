@@ -122,6 +122,7 @@
   .cart-container {
     width: 95%;
     padding: 1rem;
+    margin-top: 7rem; /* Add this to push below navbar */
   }
 
   .cart-container h2 {
@@ -162,7 +163,7 @@
   }
 
   .modal-content {
-    width: 90%;
+    width: 95%;
     padding: 1rem;
   }
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %> <%- include('partials/sidebar') %>
+  <body>
+    <%- include('partials/navbar') %>
+
+    <main class="contact-page" style="padding: 20px">
+      <h2 style="text-align: center">Contact Us</h2>
+
+      <section class="contact-info" style="margin-top: 20px">
+        <p><strong>Location:</strong> Ughelli, Delta State, Nigeria</p>
+        <p>
+          <strong>Email:</strong>
+          <a href="mailto:gabrielefevberha@gmail.com"
+            >gabrielefevberha@gmail.com</a
+          >
+        </p>
+        <p>
+          <strong>Phone:</strong>
+          <a href="tel:+2349134849675">+234 913 484 9675</a>
+        </p>
+      </section>
+
+      <section class="map-section" style="margin-top: 20px">
+        <h3>Our Location on Map:</h3>
+        <iframe
+          src="https://www.google.com/maps?q=Ughelli,%20Delta%20State,%20Nigeria&output=embed"
+          width="100%"
+          height="300"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+        >
+        </iframe>
+      </section>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

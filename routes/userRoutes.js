@@ -24,6 +24,7 @@ const {
   searchProduct,
   getMyOrders,
   updateOrderStatus,
+  getContactPage,
 } = require("../controllers/userController");
 
 const { isAdmin, isAuthenticated } = require("../middlewares/auth");
@@ -83,5 +84,7 @@ router.post("/search", searchProduct);
 router.get("/my-orders", isAuthenticated, getMyOrders);
 
 router.post('/admin/orders/:id/deliver', isAdmin, updateOrderStatus);
+
+router.get('/contact', getContactPage);
 
 module.exports = router;

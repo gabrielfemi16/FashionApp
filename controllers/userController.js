@@ -414,6 +414,10 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+const getContactPage = (req, res) => {
+  res.render("contact", { title: "Contact Us" });
+};
+
 module.exports = {
   home,
   wishlist,
@@ -437,4 +441,5 @@ module.exports = {
   searchProduct,
   getMyOrders,
   updateOrderStatus,
+  getContactPage,
 };
